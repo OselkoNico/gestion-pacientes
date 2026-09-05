@@ -7,6 +7,8 @@ export default function TablaPacientes() {
 
     const[error, setError] = useState<string | null>(null);
 
+    const [loading, setLoading] = useState<boolean>(true);
+
     useEffect(() => {
         async function cargarPacientes() {
             try {
@@ -16,12 +18,20 @@ export default function TablaPacientes() {
                 if (error instanceof ApiError) {
                     setError(error.message);
                 }
+            } finally {
+                setLoading(false)
             }
         }
         cargarPacientes();
     }, []);
 
     return(
+    <>
+        {loading ? (
+            "Cargando los pacientes..."
+        ): error ? (
+            <p>{error}</p>
+        ) : (
         <table>
             <thead>
                 <tr>
@@ -36,7 +46,8 @@ export default function TablaPacientes() {
             </thead>
 
             <tbody>
-                {pacientes.map((paciente) => (
+                {pacientes.length > 0 ? (
+                    pacientes.map((paciente) => (
                     <tr key={paciente.dni}>
                         <td>{paciente.dni}</td>
                         <td>{paciente.name}</td>
@@ -46,8 +57,17 @@ export default function TablaPacientes() {
                         <td>{paciente.postalCode}</td>
                         <td>{paciente.phone}</td>
                     </tr>
-                ))}
+                    ))
+                    ) : (
+                    <tr>
+                        <td colSpan={7}>
+                            No hay pacientes registrados.
+                        </td>
+                    </tr>
+                    )}
             </tbody>
         </table>
+        )}
+    </>
     )
 }

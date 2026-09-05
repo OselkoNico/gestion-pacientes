@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
 router.put('/:dni', (req, res) => {
     if(!req.body || Object.keys(req.body).length === 0) {
         return res.status(400).json({
-            message: 'Paciente data or cif param mandatory'
+            message: 'Paciente data or dni param mandatory'
         });
     }
 
@@ -71,7 +71,7 @@ router.put('/:dni', (req, res) => {
 });
 
 router.delete('/:dni', (req, res) => {
-    const pantienteIndex = pacientes.findIndex(
+    const pacienteIndex = pacientes.findIndex(
         paciente => paciente.dni === req.params.dni
     );
 
