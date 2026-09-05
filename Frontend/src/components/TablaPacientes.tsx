@@ -12,6 +12,8 @@ export default function TablaPacientes({ pacientes, borrarPaciente, seleccionarP
 
     const [error, setError] = useState<string | null>(null);
 
+    const [eliminandoDni, setEliminandoDni] = useState<string | null>(null);
+
     async function handleDelete(dni: string) {
         const confirmar = window.confirm(
             "¿Estás seguro de que quieres eliminar este paciente?"
@@ -22,6 +24,7 @@ export default function TablaPacientes({ pacientes, borrarPaciente, seleccionarP
         }
 
         setError(null);
+        setEliminandoDni(dni);
 
         try {
             await borrarPaciente(dni);
@@ -31,6 +34,8 @@ export default function TablaPacientes({ pacientes, borrarPaciente, seleccionarP
             } else {
                 setError("Ha ocurrido un error inesperado.")
             }
+        } finally {
+            setEliminandoDni(null);
         }
     }
 
@@ -75,7 +80,7 @@ export default function TablaPacientes({ pacientes, borrarPaciente, seleccionarP
                                     onClick={() => handleDelete(paciente.dni)}
                                     disabled={operacion !== null}
                                 >
-                                    {operacion === "eliminando"
+                                    {eliminandoDni === paciente.dni
                                         ? "Eliminando..."
                                         : "Eliminar"
                                     }

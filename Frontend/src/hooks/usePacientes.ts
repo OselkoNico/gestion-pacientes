@@ -35,6 +35,8 @@ export function usePacientes() {
 
                 if (error instanceof ApiError) {
                     setError(error.message);
+                } else {
+                    setError("Ha ocurrido un error inesperado.");
                 }
 
             } finally {

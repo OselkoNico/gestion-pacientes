@@ -97,9 +97,9 @@ export default function FormularioPacientes({
 
             if (pacienteEditar) {
 
-                const { dni, ...datosPaciente } = paciente;
+                const { dni: _dni, ...datosPaciente } = paciente;
 
-                await editarPaciente(dni, datosPaciente);
+                await editarPaciente(pacienteEditar.dni, datosPaciente);
 
             } else {
 
@@ -147,6 +147,7 @@ export default function FormularioPacientes({
                 name="dni"
                 value={paciente.dni}
                 onChange={handleChange}
+                disabled={pacienteEditar !== null}
             />
 
 

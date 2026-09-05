@@ -65,6 +65,12 @@ form input:focus {
     border-color: #2563eb;
 }
 
+form input:disabled {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: not-allowed;
+}
+
 form button {
     justify-self: center;
 
