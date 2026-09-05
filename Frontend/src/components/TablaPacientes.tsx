@@ -1,37 +1,42 @@
-import { useState, useEffect } from "react";
-import { obtenerPacientes, ApiError, type Paciente } from "../services/pacientesService";
+import { useState } from "react";
+import { ApiError, type Paciente } from "../services/pacientesService";
 
-export default function TablaPacientes() {
-    
-    const[pacientes, setPacientes] = useState<Paciente[]>([]);
+interface TablaPacientesProps {
+    pacientes: Paciente[];
+    borrarPaciente: (dni: string) => Promise<void>;
+    seleccionarPaciente: (paciente: Paciente) => void;
+    operacion: "creando" | "editando" | "eliminando" | null;
+}
 
-    const[error, setError] = useState<string | null>(null);
+export default function TablaPacientes({ pacientes, borrarPaciente, seleccionarPaciente, operacion }: TablaPacientesProps) {
 
-    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        async function cargarPacientes() {
-            try {
-                const datos = await obtenerPacientes();
-                setPacientes(datos);
-            } catch (error) {
-                if (error instanceof ApiError) {
-                    setError(error.message);
-                }
-            } finally {
-                setLoading(false)
+    async function handleDelete(dni: string) {
+        const confirmar = window.confirm(
+            "¿Estás seguro de que quieres eliminar este paciente?"
+        );
+
+        if(!confirmar) {
+            return;
+        }
+
+        setError(null);
+
+        try {
+            await borrarPaciente(dni);
+        } catch(error) {
+            if(error instanceof ApiError) {
+                setError(error.message);
+            } else {
+                setError("Ha ocurrido un error inesperado.")
             }
         }
-        cargarPacientes();
-    }, []);
+    }
 
-    return(
-    <>
-        {loading ? (
-            "Cargando los pacientes..."
-        ): error ? (
-            <p>{error}</p>
-        ) : (
+    return (
+        <>
+        {error && <p className="error">{error}</p>}
         <table>
             <thead>
                 <tr>
@@ -42,32 +47,51 @@ export default function TablaPacientes() {
                     <th>Localidad</th>
                     <th>Código postal</th>
                     <th>Teléfono</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
 
             <tbody>
                 {pacientes.length > 0 ? (
                     pacientes.map((paciente) => (
-                    <tr key={paciente.dni}>
-                        <td>{paciente.dni}</td>
-                        <td>{paciente.name}</td>
-                        <td>{paciente.surname}</td>
-                        <td>{paciente.address}</td>
-                        <td>{paciente.city}</td>
-                        <td>{paciente.postalCode}</td>
-                        <td>{paciente.phone}</td>
-                    </tr>
+                        <tr key={paciente.dni}>
+                            <td>{paciente.dni}</td>
+                            <td>{paciente.name}</td>
+                            <td>{paciente.surname}</td>
+                            <td>{paciente.address}</td>
+                            <td>{paciente.city}</td>
+                            <td>{paciente.postalCode}</td>
+                            <td>{paciente.phone}</td>
+
+                            <td>
+                                <button
+                                    onClick={() => seleccionarPaciente(paciente)}
+                                    disabled={operacion !== null}
+                                >
+                                    Modificar
+                                </button>
+
+                                <button
+                                    onClick={() => handleDelete(paciente.dni)}
+                                    disabled={operacion !== null}
+                                >
+                                    {operacion === "eliminando"
+                                        ? "Eliminando..."
+                                        : "Eliminar"
+                                    }
+                                </button>
+                            </td>
+                        </tr>
                     ))
-                    ) : (
+                ) : (
                     <tr>
-                        <td colSpan={7}>
+                        <td colSpan={8}>
                             No hay pacientes registrados.
                         </td>
                     </tr>
-                    )}
+                )}
             </tbody>
         </table>
-        )}
-    </>
-    )
+        </>
+    );
 }
