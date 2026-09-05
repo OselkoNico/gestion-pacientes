@@ -25,7 +25,7 @@ function validarPaciente(body, {conDni}) {
 
     for(const campo of CAMPOS) {
         if(!esTexto(body?.[campo])) {
-            errores.push(`El campo "${campo} es obligatorio.`);
+            errores.push(`El campo "${campo}" es obligatorio.`);
         } else {
             datos[campo] = body[campo].trim();
         }
@@ -87,11 +87,23 @@ router.put('/:dni', (req, res) => {
         return res.status(400).json({ message: errores.join(' ') });
     }
 
+    const pacienteIndex = pacientes.findIndex(
+        paciente => paciente.dni === req.params.dni
+    );
+
+    if(pacienteIndex < 0) {
+        return res.status(404).json({
+            message: 'Paciente not found with that DNI'
+        });
+    }
+
     pacientes[pacienteIndex] = {
         ...pacientes[pacienteIndex],
         ...datos
     };
-})
+
+    res.status(200).json(pacientes[pacienteIndex]);
+});
 
 router.delete('/:dni', (req, res) => {
     const pacienteIndex = pacientes.findIndex(
