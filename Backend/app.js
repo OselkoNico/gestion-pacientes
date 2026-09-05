@@ -3,7 +3,6 @@ import router from './routes/pacientes.js';
 import cors from 'cors';
 
 const app = express();
-const port = 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -15,6 +14,4 @@ app.use((req,res) => {
     })
 });
 
-app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
-});
+export default app;
