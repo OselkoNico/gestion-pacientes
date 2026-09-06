@@ -1,18 +1,33 @@
 {
-  "name": "backend",
+  "name": "gestion-pacientes-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API REST para la gestión de pacientes (Express 5).",
+  "private": true,
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "start": "node server",
     "dev": "nodemon server",
     "test": "vitest",
     "test:run": "vitest run"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express",
+    "api-rest",
+    "pacientes",
+    "vitest",
+    "supertest"
+  ],
+  "author": "Osel Francisco Nicolás Benitez",
   "license": "ISC",
-  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OselkoNico/gestion-pacientes.git",
+    "directory": "Backend"
+  },
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.2.1"

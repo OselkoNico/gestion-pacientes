@@ -1,11 +1,16 @@
 {
-  "name": "frontend",
+  "name": "gestion-pacientes-frontend",
+  "version": "1.0.0",
+  "description": "Interfaz de gestión de pacientes (React 19 + TypeScript + Vite).",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "oxlint",
     "test": "vitest",
     "test:run": "vitest run",
