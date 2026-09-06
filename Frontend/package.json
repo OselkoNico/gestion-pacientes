@@ -1,13 +1,35 @@
 {
-  "name": "frontend",
+  "name": "gestion-pacientes-frontend",
+  "version": "1.0.0",
+  "description": "Interfaz de gestión de pacientes (React 19 + TypeScript + Vite).",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "lint:fix": "oxlint --fix",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "react",
+    "typescript",
+    "vite",
+    "vitest",
+    "pacientes"
+  ],
+  "author": "Osel Francisco Nicolás Benitez",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OselkoNico/gestion-pacientes.git",
+    "directory": "Frontend"
   },
   "dependencies": {
     "axios": "^1.20.0",
@@ -17,14 +39,18 @@
   "devDependencies": {
     "@babel/core": "^7.29.7",
     "@rolldown/plugin-babel": "^0.2.3",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
     "@types/babel__core": "^7.20.5",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.1.0",
     "babel-plugin-react-compiler": "^1.0.0",
+    "jsdom": "^29.1.1",
     "oxlint": "^1.79.0",
     "typescript": "~6.0.2",
-    "vite": "^8.2.2"
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0"
   }
 }
